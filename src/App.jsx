@@ -9,12 +9,25 @@ function App() {
   const [cart, setCart] = useState([])
 
 
-  const addToCart = (guitar) => {
-    setCart(prevcart => [...prevcart, guitar])
+  const addToCart = (item) => {
+    // verifica si ya existe un elemento duplicado en el carrito
+    const itemExist = cart.findIndex (guitar => guitar.id === item.id)
+    if(itemExist >= 0) {
+      // copia de carrito para no mutar el state
+      const updatedCart = [...cart]
+      updatedCart[itemExist].quantity++
+      setCart(updatedCart)
+    } else {
+      item.quantity = 1
+      setCart([...cart, item])
+    }
   }
   return (
     <>
-    <Header />
+    <Header 
+
+      cart={cart}
+    />
       <main className="container-xl mt-5">
           <h2 className="text-center">Nuestra Colección</h2>
 
